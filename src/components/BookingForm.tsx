@@ -302,7 +302,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                   />
                 </div>
                 <p className="text-[12px] text-neutral-500">
-                  Where we will reach out to send you the Minecraft server IP and voice channel link.
+                  Where we will reach out to send updates about your booking.
                 </p>
               </div>
 
