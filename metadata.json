@@ -1,0 +1,6 @@
+{
+  "name": "Therapy Na Walang Sigawan",
+  "description": "A peaceful two-person Minecraft counseling sanctuary offering gentle conversations, safe spaces, and roleplay check-ins with zero shouting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
