@@ -52,7 +52,7 @@ export const AboutSection: React.FC = () => {
                 02. The Birch Sanctuary
               </h3>
               <p className="text-neutral-600 text-sm leading-relaxed">
-                Our in-game room is custom built with birch wood planks, soft lantern glow, a soothing fireplace, and tea mugs on the counter. It provides a comforting virtual physical anchor while you chat.
+                Our in-game room is custom built with birch wood planks, soft lantern glow, and tea mugs on the counter. It provides a comforting virtual physical anchor while we talk.
               </p>
             </div>
             <div className="mt-8 pt-4 border-t border-neutral-200/60 text-xs text-neutral-500 flex items-center gap-2">
@@ -85,10 +85,10 @@ export const AboutSection: React.FC = () => {
         {/* Clean Editorial Quote Banner */}
         <div className="mt-14 p-8 rounded-3xl bg-[#FAF9F6] border border-neutral-200/80 text-center max-w-3xl mx-auto space-y-2">
           <p className="text-base sm:text-lg italic text-neutral-800 font-editorial">
-            "Hindi mo kailangang magpanggap na okay ka rito. Umupo ka lang, humigop ng tsaa, at pag-usapan natin."
+            "Hindi ka namin Sisigawan kase Therapy Na Walang Sigawan ang pangalan."
           </p>
           <div className="text-xs text-neutral-500">
-            <span>Therapy Na Walang Sigawan Sanctuary Philosophy</span>
+            <span>Therapy Na Walang Sigawan Philosophy</span>
           </div>
         </div>
 
