@@ -5,8 +5,8 @@ import { Counselor } from '../types';
 const COUNSELORS: Counselor[] = [
   {
     id: 'counselor-1',
-    name: 'PINATSUMARSX',
-    ign: 'PINATSUMARSX',
+    name: 'Pinatsummarsx',
+    ign: 'Pinatsummarsx',
     role: 'Lead Counselor & Calming Anchor',
     specialty: 'Active Listening & Burnout Care',
     bio: 'Dedicated to holding a peaceful, non-confrontational space. Specializes in helping players unpack real-life stress, digital fatigue, and server drama with zero judgment.',

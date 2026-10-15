@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Sparkles, Upload, Image as ImageIcon, RotateCcw, ShieldCheck, Heart, Coffee } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, ShieldCheck, Heart, Coffee } from 'lucide-react';
 
 interface HeroSectionProps {
   onBookClick: () => void;
@@ -8,29 +8,7 @@ interface HeroSectionProps {
 const DEFAULT_POSTER = 'https://www.image2url.com/r2/default/images/1792065032516-cfb5a201-3317-4b69-b6cc-e478847a477a.jpg';
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onBookClick }) => {
-  const [posterSrc, setPosterSrc] = useState<string>(DEFAULT_POSTER);
-  const [hasCustomUpload, setHasCustomUpload] = useState<boolean>(false);
   const [imageError, setImageError] = useState<boolean>(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const objectUrl = URL.createObjectURL(file);
-      setPosterSrc(objectUrl);
-      setHasCustomUpload(true);
-      setImageError(false);
-    }
-  };
-
-  const handleResetPoster = () => {
-    setPosterSrc(DEFAULT_POSTER);
-    setHasCustomUpload(false);
-    setImageError(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
 
   return (
     <section className="relative overflow-hidden pt-8 pb-16 lg:pt-16 lg:pb-24">
@@ -98,41 +76,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBookClick }) => {
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-3xl overflow-hidden shadow-md border border-neutral-200 bg-white group">
               
-              {/* Floating Upload Poster Preview Button */}
-              <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
-                {hasCustomUpload && (
-                  <button
-                    onClick={handleResetPoster}
-                    title="Reset to default poster"
-                    className="p-2 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-neutral-700 hover:text-neutral-950 shadow-sm transition-all hover:scale-105 cursor-pointer text-xs"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                  </button>
-                )}
-                
-                <label className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-neutral-800 hover:bg-white shadow-sm transition-all text-xs font-medium cursor-pointer hover:shadow-md">
-                  <Upload className="w-3.5 h-3.5 text-neutral-900" />
-                  <span>{hasCustomUpload ? 'Change Poster' : 'Upload Poster Preview'}</span>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                </label>
-              </div>
-
               {/* Poster Image / Fallback Sanctuary Canvas */}
               <div className="relative aspect-3/4 w-full bg-neutral-100 flex items-center justify-center overflow-hidden">
                 {!imageError ? (
                   <img
-                    src={posterSrc}
+                    src={DEFAULT_POSTER}
                     alt="Therapy Na Walang Sigawan Sanctuary Poster"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                     referrerPolicy="no-referrer"
                     onError={() => {
-                      // If /poster.jpg doesn't exist yet, show the high-fidelity sanctuary fallback art
                       setImageError(true);
                     }}
                   />
