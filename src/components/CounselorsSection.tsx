@@ -1,5 +1,5 @@
-import React from 'react';
-import { Heart, Shield } from 'lucide-react';
+import React, { useState } from 'react';
+import { Heart, Shield, RefreshCw } from 'lucide-react';
 import { Counselor } from '../types';
 
 const COUNSELORS: Counselor[] = [
@@ -22,21 +22,53 @@ const COUNSELORS: Counselor[] = [
 ];
 
 export const CounselorsSection: React.FC = () => {
+  // Timestamp-based cache buster ensures browser always fetches the latest Minecraft skin
+  const [cacheKey, setCacheKey] = useState<number>(() => Date.now());
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [refreshedNotice, setRefreshedNotice] = useState<boolean>(false);
+
+  const handleRefreshSkins = () => {
+    setIsRefreshing(true);
+    setRefreshedNotice(false);
+    const newTimestamp = Date.now();
+    setCacheKey(newTimestamp);
+
+    setTimeout(() => {
+      setIsRefreshing(false);
+      setRefreshedNotice(true);
+      setTimeout(() => setRefreshedNotice(false), 2500);
+    }, 700);
+  };
+
   return (
     <section id="counselors" className="py-20 bg-[#FAF9F6] border-t border-neutral-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white border border-neutral-200 text-xs font-semibold text-neutral-700 shadow-2xs">
-            <Heart className="w-3.5 h-3.5 text-neutral-900" />
-            <span>Meet Your Hosts</span>
+          <div className="flex items-center justify-center gap-2">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white border border-neutral-200 text-xs font-semibold text-neutral-700 shadow-2xs">
+              <Heart className="w-3.5 h-3.5 text-neutral-900" />
+              <span>Meet Your Hosts</span>
+            </div>
+
+            {/* Quick Skin Refresh Button */}
+            <button
+              onClick={handleRefreshSkins}
+              disabled={isRefreshing}
+              title="Force refresh Minecraft skins from Mojang servers"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white hover:bg-neutral-100 border border-neutral-200 text-xs font-medium text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer shadow-2xs"
+            >
+              <RefreshCw className={`w-3 h-3 ${isRefreshing ? 'animate-spin text-neutral-900' : ''}`} />
+              <span>{isRefreshing ? 'Syncing...' : refreshedNotice ? 'Skins Updated!' : 'Sync Skins'}</span>
+            </button>
           </div>
+
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900">
             Meet the Counselors
           </h2>
           <p className="text-neutral-600 text-base leading-relaxed">
-            Every session is guided by two friendly, approachable hosts. PINATSUMARSX and Marbinnn are here to hold space, listen, and share virtual tea with you at the birch table.
+            Every session is guided by two friendly, approachable hosts. Pinatsummarsx and Marbinnn are here to hold space, listen, and share virtual tea with you at the birch table.
           </p>
         </div>
 
@@ -53,12 +85,13 @@ export const CounselorsSection: React.FC = () => {
                   <div className="relative shrink-0">
                     <div className="w-20 h-20 rounded-2xl bg-neutral-100 border border-neutral-200 p-1 flex items-center justify-center overflow-hidden shadow-2xs">
                       <img
-                        src={`https://mc-heads.net/avatar/${encodeURIComponent(counselor.ign)}/100`}
+                        key={`${counselor.ign}-${cacheKey}`}
+                        src={`https://mc-heads.net/avatar/${encodeURIComponent(counselor.ign)}/100?v=${cacheKey}`}
                         alt={counselor.name}
                         className="w-full h-full object-contain rounded-xl"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = 'https://mc-heads.net/avatar/Steve/100';
+                          (e.target as HTMLImageElement).src = `https://mc-heads.net/avatar/Steve/100?v=${cacheKey}`;
                         }}
                       />
                     </div>

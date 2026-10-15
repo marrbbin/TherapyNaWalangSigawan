@@ -46,7 +46,7 @@ export const DonorsSection: React.FC = () => {
                 <div className="relative">
                   <div className="w-20 h-20 rounded-2xl bg-neutral-100 border border-neutral-200 p-1 flex items-center justify-center overflow-hidden shadow-2xs group-hover:scale-105 transition-transform duration-300">
                     <img
-                      src={`https://mc-heads.net/avatar/${encodeURIComponent(donor.ign)}/80`}
+                      src={`https://mc-heads.net/avatar/${encodeURIComponent(donor.ign)}/80?v=${Date.now()}`}
                       alt={donor.ign}
                       className="w-full h-full object-contain rounded-xl"
                       referrerPolicy="no-referrer"

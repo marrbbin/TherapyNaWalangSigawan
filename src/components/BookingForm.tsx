@@ -103,7 +103,10 @@ export const BookingForm: React.FC<BookingFormProps> = ({
     const discordPayload = {
       username: 'Therapy Na Walang Sigawan Sanctuary',
       avatar_url: 'https://mc-heads.net/avatar/Steve/128',
-      content: '🌱 **A new patient has requested an appointment at the Birch Sanctuary!**',
+      content: '@everyone 🌱 **A new patient has requested an appointment at the Birch Sanctuary!**',
+      allowed_mentions: {
+        parse: ['everyone'],
+      },
       embeds: [
         {
           title: '📅 New Patient Booking — Therapy Na Walang Sigawan',
