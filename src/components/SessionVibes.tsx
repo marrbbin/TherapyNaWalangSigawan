@@ -14,7 +14,7 @@ export const SessionVibes: React.FC<SessionVibesProps> = ({ onSelectVibe }) => {
       subtitle: 'Comedic & Content-Friendly',
       description:
         'Fun in-character therapy for stream content, comedic server drama, or Minecraft shenanigans. We play along with your character lore, server feuds, or chaotic mining burnout.',
-      image: 'https://www.image2url.com/r2/default/images/1792063192144-4206560c-2ee0-472b-96ff-2f446966899a.png',
+      image: 'https://www.image2url.com/r2/default/images/1792080287214-efc1dfe3-53cf-4c64-b4ba-aca6e3786a2b.jpeg',
       fallbackColor: 'from-amber-100 to-orange-100',
       badge: '🎭 Stream Vibe',
       features: ['Stream / Recording friendly', 'Improvised funny diagnoses', 'In-character Minecraft lore'],
