@@ -53,10 +53,6 @@ export const Footer: React.FC = () => {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-400">
           <p>© {new Date().getFullYear()} Therapy Na Walang Sigawan. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-neutral-400" />
-              Minecraft Community Sanctuary
-            </span>
             <span>·</span>
             <span>Made with care for peaceful gamers</span>
           </div>
