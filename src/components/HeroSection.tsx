@@ -5,7 +5,7 @@ interface HeroSectionProps {
   onBookClick: () => void;
 }
 
-const DEFAULT_POSTER = 'https://www.image2url.com/r2/default/images/1792065032516-cfb5a201-3317-4b69-b6cc-e478847a477a.jpg';
+const DEFAULT_POSTER = 'https://cdn.phototourl.com/member/2026-10-16-4cfbdd1f-7c43-41c4-bb90-dbf362af659d.png';
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onBookClick }) => {
   const [imageError, setImageError] = useState<boolean>(false);

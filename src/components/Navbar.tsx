@@ -20,8 +20,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onBookClick }) => {
   const navLinks = [
     { label: 'About Us', href: '#about' },
     { label: 'Session Vibes', href: '#session-vibes' },
-    { label: 'Meet the Counselors', href: '#counselors' },
+    { label: 'Counselors', href: '#counselors' },
+    { label: 'Wall of Love', href: '#testimonials' },
     { label: 'Donors', href: '#donors' },
+    { label: 'Feedback', href: '#reviews' },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

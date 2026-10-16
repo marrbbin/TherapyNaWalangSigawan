@@ -7,6 +7,8 @@ import { CounselorsSection } from './components/CounselorsSection';
 import { BookingForm } from './components/BookingForm';
 import { DonorsSection } from './components/DonorsSection';
 import { FaqSection } from './components/FaqSection';
+import { TestimonialsSection } from './components/TestimonialsSection';
+import { ReviewSection } from './components/ReviewSection';
 import { Footer } from './components/Footer';
 import { SessionTone } from './types';
 import { Volume2, VolumeX, ArrowUp } from 'lucide-react';
@@ -155,6 +157,12 @@ export default function App() {
 
         {/* FAQs Section */}
         <FaqSection />
+
+        {/* Client Testimonials / Wall of Love Section */}
+        <TestimonialsSection />
+
+        {/* Client Feedback / Leave a Review Section */}
+        <ReviewSection />
       </main>
 
       {/* Footer */}

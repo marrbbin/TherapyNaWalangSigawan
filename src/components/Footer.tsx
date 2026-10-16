@@ -39,6 +39,12 @@ export const Footer: React.FC = () => {
             <a href="#donors" className="hover:text-neutral-900 transition-colors">
               Donors & Sponsors
             </a>
+            <a href="#testimonials" className="hover:text-neutral-900 transition-colors">
+              Wall of Love
+            </a>
+            <a href="#reviews" className="hover:text-neutral-900 transition-colors">
+              Client Feedback
+            </a>
           </div>
 
         </div>

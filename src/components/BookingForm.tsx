@@ -26,24 +26,81 @@ const DISCORD_WEBHOOK_ENDPOINT = `https://discord.com/api/webhooks/${WEBHOOK_ID}
 const TIME_SLOTS = ['6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM'];
 
 const COUNSELOR_PREFERENCES = [
+  'Both Three of Us (Trio Session)',
   'Both of Us (Duo Session)',
   'Either Counselor',
   'Specific Host (Mention in notes)',
 ];
 
+const parseSlotHour = (slot: string): number => {
+  if (slot === '6:00 PM') return 18;
+  if (slot === '7:00 PM') return 19;
+  if (slot === '8:00 PM') return 20;
+  if (slot === '9:00 PM') return 21;
+  if (slot === '10:00 PM') return 22;
+  const match = slot.match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if (match) {
+    let h = parseInt(match[1], 10);
+    const isPm = match[3].toUpperCase() === 'PM';
+    if (isPm && h < 12) h += 12;
+    if (!isPm && h === 12) h = 0;
+    return h;
+  }
+  return 0;
+};
+
+const getLocalDateString = (date: Date = new Date()): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+export const isSlotPast = (slot: string, selectedDate: string): boolean => {
+  if (!selectedDate || !slot) return false;
+  const now = new Date();
+  const todayLocal = getLocalDateString(now);
+
+  if (selectedDate < todayLocal) return true;
+  if (selectedDate > todayLocal) return false;
+
+  // Selected date is today: compare slot hour with current hour & minute
+  const slotHour = parseSlotHour(slot);
+  const currentHour = now.getHours();
+  const currentMinute = now.getMinutes();
+
+  if (currentHour > slotHour) return true;
+  if (currentHour === slotHour && currentMinute >= 0) return true;
+
+  return false;
+};
+
+const getInitialBookingSchedule = () => {
+  const today = getLocalDateString();
+  const availableToday = TIME_SLOTS.find((s) => !isSlotPast(s, today));
+  if (availableToday) {
+    return { date: today, timeSlot: availableToday };
+  }
+  // All slots today have passed, default to tomorrow
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return { date: getLocalDateString(tomorrow), timeSlot: '8:00 PM' };
+};
+
 export const BookingForm: React.FC<BookingFormProps> = ({
   initialTone = 'serious',
   initialCounselorPref = 'Both Three of Us (Trio Session)',
 }) => {
-  const todayStr = new Date().toISOString().split('T')[0];
+  const initialSchedule = getInitialBookingSchedule();
+  const todayStr = getLocalDateString();
 
   const [formData, setFormData] = useState<BookingFormData>({
     ign: '',
     discord: '',
     tone: initialTone,
     counselorPreference: initialCounselorPref,
-    date: todayStr,
-    timeSlot: '8:00 PM',
+    date: initialSchedule.date,
+    timeSlot: initialSchedule.timeSlot,
     notes: '',
   });
 
@@ -64,6 +121,23 @@ export const BookingForm: React.FC<BookingFormProps> = ({
       setFormData((prev) => ({ ...prev, counselorPreference: initialCounselorPref }));
     }
   }, [initialCounselorPref]);
+
+  const handleDateChange = (newDate: string) => {
+    setFormData((prev) => {
+      const isCurrentSlotStillValid = !isSlotPast(prev.timeSlot, newDate);
+      let updatedSlot = prev.timeSlot;
+      if (!isCurrentSlotStillValid) {
+        // Automatically switch to first upcoming available slot for the selected date
+        const nextAvailable = TIME_SLOTS.find((s) => !isSlotPast(s, newDate));
+        updatedSlot = nextAvailable || '';
+      }
+      return {
+        ...prev,
+        date: newDate,
+        timeSlot: updatedSlot,
+      };
+    });
+  };
 
   const cleanIgn = formData.ign.trim() || 'Steve';
 
@@ -89,6 +163,13 @@ export const BookingForm: React.FC<BookingFormProps> = ({
 
     if (!formData.timeSlot) {
       setErrorMessage('Please select a preferred time slot.');
+      return;
+    }
+
+    if (isSlotPast(formData.timeSlot, formData.date)) {
+      setErrorMessage(
+        'The selected time slot has already passed for this date. Please pick an upcoming time slot or select a future date.'
+      );
       return;
     }
 
@@ -196,13 +277,14 @@ export const BookingForm: React.FC<BookingFormProps> = ({
   };
 
   const handleResetForm = () => {
+    const freshSchedule = getInitialBookingSchedule();
     setFormData({
       ign: '',
       discord: '',
       tone: 'serious',
-      counselorPreference: 'Both of Us (Duo Session)',
-      date: todayStr,
-      timeSlot: '8:00 PM',
+      counselorPreference: initialCounselorPref,
+      date: freshSchedule.date,
+      timeSlot: freshSchedule.timeSlot,
       notes: '',
     });
     setSubmitSuccess(false);
@@ -421,7 +503,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       required
                       min={todayStr}
                       value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                      onChange={(e) => handleDateChange(e.target.value)}
                       className="w-full px-4 py-3 rounded-2xl border border-neutral-200 bg-neutral-50/50 text-neutral-900 focus:outline-hidden focus:ring-2 focus:ring-neutral-900 focus:bg-white text-sm transition-all"
                     />
                   </div>
@@ -429,21 +511,43 @@ export const BookingForm: React.FC<BookingFormProps> = ({
 
                 {/* Time Slots (Selectable Pill Buttons) */}
                 <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-neutral-900">
-                    Time Slot (PST/GMT+8) <span className="text-red-500">*</span>
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label className="block text-sm font-semibold text-neutral-900">
+                      Time Slot (PST/GMT+8) <span className="text-red-500">*</span>
+                    </label>
+                    {formData.date === todayStr && (
+                      <span className="text-[11px] text-neutral-400 font-medium">
+                        Today
+                      </span>
+                    )}
+                  </div>
+
                   <div className="flex flex-wrap gap-2">
                     {TIME_SLOTS.map((slot) => {
+                      const isPast = isSlotPast(slot, formData.date);
                       const isSelected = formData.timeSlot === slot;
+
                       return (
                         <button
                           key={slot}
                           type="button"
-                          onClick={() => setFormData({ ...formData, timeSlot: slot })}
-                          className={`px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                            isSelected
-                              ? 'bg-neutral-900 text-white shadow-2xs'
-                              : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
+                          disabled={isPast}
+                          onClick={() => {
+                            if (!isPast) {
+                              setFormData({ ...formData, timeSlot: slot });
+                            }
+                          }}
+                          title={
+                            isPast
+                              ? 'This time slot has already passed for today. Please select a future date.'
+                              : `Select ${slot}`
+                          }
+                          className={`px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
+                            isPast
+                              ? 'bg-neutral-100/60 text-neutral-300 border border-neutral-200/50 cursor-not-allowed line-through opacity-60 select-none'
+                              : isSelected
+                              ? 'bg-neutral-900 text-white shadow-2xs cursor-pointer'
+                              : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700 cursor-pointer'
                           }`}
                         >
                           {slot}
@@ -451,6 +555,21 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       );
                     })}
                   </div>
+
+                  {/* Contextual time helper notice */}
+                  {formData.date === todayStr && TIME_SLOTS.every((s) => isSlotPast(s, formData.date)) ? (
+                    <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs mt-1.5 flex items-center gap-1.5">
+                      <span>⚠️ All time slots for today have already passed. Please pick a future date above.</span>
+                    </div>
+                  ) : formData.date === todayStr ? (
+                    <p className="text-[11px] text-neutral-400 mt-1">
+                      Past hours for today cannot be selected. Pick any future date to book those times.
+                    </p>
+                  ) : (
+                    <p className="text-[11px] text-neutral-500 mt-1">
+                      All time slots are open for this date.
+                    </p>
+                  )}
                 </div>
 
               </div>
