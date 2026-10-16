@@ -33,7 +33,7 @@ const COUNSELOR_PREFERENCES = [
 
 export const BookingForm: React.FC<BookingFormProps> = ({
   initialTone = 'serious',
-  initialCounselorPref = 'Both of Us (Duo Session)',
+  initialCounselorPref = 'Both Three of Us (Trio Session)',
 }) => {
   const todayStr = new Date().toISOString().split('T')[0];
 

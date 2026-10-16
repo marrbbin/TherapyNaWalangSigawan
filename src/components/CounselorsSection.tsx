@@ -19,6 +19,14 @@ const COUNSELORS: Counselor[] = [
     specialty: 'Perspective Sharing & Roleplay Therapy',
     bio: 'Brings gentle warmth, virtual tea hospitality, and thoughtful comedic timing. Loves improvising lighthearted roleplay scenarios or providing reassuring companionship.',
   },
+  {
+    id: 'counselor-3',
+    name: 'DK San',
+    ign: 'DikoySan',
+    role: 'Counselor',
+    specialty: 'Roleplay Therapy & Perspective Sharing',
+    bio: 'A calm presence, an open mind, and probably a cup of virtual tea ready for you. DK San offers a safe space to vent, reflect, share perspectives, or simply take a breather from the chaos. Believes in listening before judging, understanding before reacting, and finding humor even on difficult days. Whether you need a different point of view, a little encouragement, or someone to sit with you through an awkward roleplay scenario, youre welcome here.',
+  },
 ];
 
 export const CounselorsSection: React.FC = () => {
