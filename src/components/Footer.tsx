@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-xs text-neutral-500 max-w-sm">
-              A peaceful two-person Minecraft counseling sanctuary. Gentle conversations, virtual tea, and zero shouting.
+              A peaceful Minecraft counseling sanctuary. Gentle conversations, virtual tea, and zero shouting.
             </p>
           </div>
 

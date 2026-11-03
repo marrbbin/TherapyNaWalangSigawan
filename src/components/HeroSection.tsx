@@ -5,7 +5,7 @@ interface HeroSectionProps {
   onBookClick: () => void;
 }
 
-const DEFAULT_POSTER = 'https://cdn.phototourl.com/member/2026-10-16-4cfbdd1f-7c43-41c4-bb90-dbf362af659d.png';
+const DEFAULT_POSTER = '/assets/aistudio/7_f4114a3a.webp';
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onBookClick }) => {
   const [imageError, setImageError] = useState<boolean>(false);
@@ -34,7 +34,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBookClick }) => {
 
             {/* Subheadline */}
             <p className="text-lg sm:text-xl text-neutral-600 font-normal leading-relaxed max-w-2xl">
-              Gentle Conversations, True Healing. Just the two of us holding a quiet, judgment-free space in Minecraft. Whether you want a fun roleplay check-in for the stream or a genuine, peaceful chat to get something off your chest.
+              Gentle Conversations, True Healing. Our counselors hold a quiet, judgment-free space in Minecraft. Whether you want a fun roleplay check-in for the stream or a genuine, peaceful chat to get something off your chest.
             </p>
 
             {/* Action CTA & Micro Trust */}

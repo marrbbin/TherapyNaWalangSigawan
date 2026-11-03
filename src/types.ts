@@ -5,6 +5,8 @@ export interface Counselor {
   role: string;
   specialty: string;
   bio: string;
+  isCracked?: boolean;
+  customAvatar?: string;
 }
 
 export interface Donor {

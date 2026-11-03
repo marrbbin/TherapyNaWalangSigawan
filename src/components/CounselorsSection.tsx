@@ -27,6 +27,15 @@ const COUNSELORS: Counselor[] = [
     specialty: 'Roleplay Therapy & Perspective Sharing',
     bio: 'A calm presence, an open mind, and probably a cup of virtual tea ready for you. DK San offers a safe space to vent, reflect, share perspectives, or simply take a breather from the chaos. Believes in listening before judging, understanding before reacting, and finding humor even on difficult days. Whether you need a different point of view, a little encouragement, or someone to sit with you through an awkward roleplay scenario, youre welcome here.',
   },
+  {
+    id: 'counselor-4',
+    name: 'seddd',
+    ign: 'seddd',
+    role: 'Counselor & Sanctuary Companion',
+    specialty: 'Casual Venting & Server Life',
+    bio: 'Easygoing, grounded, and always down to chill at the birch table. Seddd brings a relaxed vibe to help take the edge off a stressful day—whether you want to rant about lost diamonds or just need a calm voice while you mine.',
+    isCracked: true,
+  },
 ];
 
 export const CounselorsSection: React.FC = () => {
@@ -76,12 +85,12 @@ export const CounselorsSection: React.FC = () => {
             Meet the Counselors
           </h2>
           <p className="text-neutral-600 text-base leading-relaxed">
-            Every session is guided by friendly, approachable hosts. Pinatsummarsx, Marbinnn, and DK San are here to hold space, listen, and share virtual tea with you at the birch table.
+            Every session is guided by friendly, approachable hosts. Pinatsummarsx, Marbinnn, DK San, and seddd are here to hold space, listen, and share virtual tea with you at the birch table.
           </p>
         </div>
 
-        {/* 3-Card Minimalist Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {/* 4-Card Minimalist Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {COUNSELORS.map((counselor, idx) => (
             <div
               key={counselor.id}
@@ -94,7 +103,7 @@ export const CounselorsSection: React.FC = () => {
                     <div className="w-20 h-20 rounded-2xl bg-neutral-100 border border-neutral-200 p-1 flex items-center justify-center overflow-hidden shadow-2xs">
                       <img
                         key={`${counselor.ign}-${cacheKey}`}
-                        src={`https://mc-heads.net/avatar/${encodeURIComponent(counselor.ign)}/100?v=${cacheKey}`}
+                        src={counselor.customAvatar || `https://mc-heads.net/avatar/${encodeURIComponent(counselor.ign)}/100?v=${cacheKey}`}
                         alt={counselor.name}
                         className="w-full h-full object-contain rounded-xl"
                         referrerPolicy="no-referrer"

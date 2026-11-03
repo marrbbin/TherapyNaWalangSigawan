@@ -26,9 +26,10 @@ const DISCORD_WEBHOOK_ENDPOINT = `https://discord.com/api/webhooks/${WEBHOOK_ID}
 const TIME_SLOTS = ['6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM'];
 
 const COUNSELOR_PREFERENCES = [
+  'All 4 of Us (Full Group Session)',
   'Both Three of Us (Trio Session)',
   'Both of Us (Duo Session)',
-  'Either Counselor',
+  'Any Available Counselor',
   'Specific Host (Mention in notes)',
 ];
 

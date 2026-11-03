@@ -16,7 +16,7 @@ export const AboutSection: React.FC = () => {
           </h2>
           <p className="text-neutral-600 leading-relaxed text-base">
             Modern internet spaces and gaming servers are often filled with shouting, toxic banter, and relentless pressure. 
-            <strong> Therapy Na Walang Sigawan</strong> was created to be the exact opposite: a cozy Minecraft retreat where two friends sit with you and simply listen.
+            <strong> Therapy Na Walang Sigawan</strong> was created to be the exact opposite: a cozy Minecraft retreat where our counselors sit with you and simply listen.
           </p>
         </div>
 
